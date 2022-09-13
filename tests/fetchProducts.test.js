@@ -24,4 +24,8 @@ describe('1 - Teste a função fetchProducts', () => {
     expect.assertions(1);
     expect(fetchProducts('computador')).toEqual(computadorSearch);
   });
+  it('Testa sem argumento deve retornar um error', async () => {
+    expect.assertions(1);
+    expect(fetchProducts()).toThrow('You must provide an url');
+  });
 });
