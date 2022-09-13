@@ -1,5 +1,11 @@
 // Esse tipo de comentário que estão antes de todas as funções são chamados de JSdoc,
 
+// const { fetchProducts } = require("./helpers/fetchProducts");
+
+// const { fetchProducts } = require("./helpers/fetchProducts");
+
+// const item = require("./mocks/item");
+
 // experimente passar o mouse sobre o nome das funções e verá que elas possuem descrições! 
 
 // Fique a vontade para modificar o código já escrito e criar suas próprias funções!
@@ -72,5 +78,28 @@ const createCartItemElement = ({ id, title, price }) => {
   li.addEventListener('click', cartItemClickListener);
   return li;
 };
+
+async function criarItens() {
+  const section = document.getElementsByClassName('items')[0];
+  // const primeiro = fetchProducts().then((data) => data[0]);
+  // const criarElemento = createProductItemElement(primeiro);
+  // section.appendChild(criarElemento);
+  const produtos = await fetchProducts();
+  produtos.forEach((produto) => {
+    const criarElemento = createProductItemElement(produto);
+    section.appendChild(criarElemento);
+  });
+  
+  
+  // funcionando
+  // fetchProducts().then((data) => {
+  //   data.forEach((produto) => {
+  //     const criarElemento = createProductItemElement(produto);
+  //     section.appendChild(criarElemento);
+  //   });
+  // });
+}
+
+criarItens();
 
 window.onload = () => { };
