@@ -1,8 +1,17 @@
 require('../mocks/fetchSimulator');
+const { expect } = require('@jest/globals');
 const { fetchProducts } = require('../helpers/fetchProducts');
 const computadorSearch = require('../mocks/search');
-
+console.log(computadorSearch);
 describe('1 - Teste a função fetchProducts', () => {
   // implemente seus testes aqui
-  fail('Teste vazio');
+  it('Teste se é uma função', () => {
+    expect.assertions(1)
+    expect(typeof fetchProducts).toBe('function');
+  });
+  it('Testa se fetch foi chamada ', async () => {
+    expect.assertions(1)
+    await fetchProducts('computador')
+    expect(fetch).toBeCalled();
+  });
 });
