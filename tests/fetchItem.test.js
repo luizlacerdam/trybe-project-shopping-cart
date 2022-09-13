@@ -10,11 +10,22 @@ describe('2 - Teste a função fetchItem', () => {
   });
   it('Testa se fetch foi chamada', async () => {
     expect.assertions(1);
+    await fetchItem('computador');
+    expect(fetch).toBeCalled();
+  });
+  it('Testa se fetch foi chamada', async () => {
+    expect.assertions(1);
     await fetchItem('MLB1615760527');
     expect(fetch).toBeCalledWith('https://api.mercadolibre.com/items/MLB1615760527')
   });
   it('Teste se o retorno da função com argumento MLB1615760527', async () => {
     expect.assertions(1);
     expect(await fetchItem('MLB1615760527')).toEqual(item);
+  });
+  it('Testa sem argumento deve retornar um error', async () => {
+    fetchItem().catch((error) => {
+      expect.assertions(1);
+      expect(error).toBe(new Error('You must provide an url'));
+    }); 
   });
 });
