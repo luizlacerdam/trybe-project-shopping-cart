@@ -81,18 +81,15 @@ const createCartItemElement = ({ id, title, price }) => {
 
 async function criarItens() {
   const section = document.getElementsByClassName('items')[0];
-  // const primeiro = fetchProducts().then((data) => data[0]);
-  // const criarElemento = createProductItemElement(primeiro);
-  // section.appendChild(criarElemento);
-  const produtos = await fetchProducts();
-  produtos.forEach((produto) => {
+  
+  const produtos = await fetchProducts('computador');
+  produtos.results.forEach((produto) => {
     const criarElemento = createProductItemElement(produto);
     section.appendChild(criarElemento);
   });
   
-  
   // funcionando
-  // fetchProducts().then((data) => {
+  // fetchProducts('computador').then((data) => {
   //   data.forEach((produto) => {
   //     const criarElemento = createProductItemElement(produto);
   //     section.appendChild(criarElemento);
