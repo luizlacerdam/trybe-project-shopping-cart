@@ -8,7 +8,6 @@ const fetchItem = async (itemId) => {
   .then((dados) => dados)
   .catch((error) => `Aconteceu esse error: ${error}`);
 };
-fetchItem('MLB1615760527');
 
 if (typeof module !== 'undefined') {
   module.exports = {

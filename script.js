@@ -1,5 +1,7 @@
 // Esse tipo de comentário que estão antes de todas as funções são chamados de JSdoc,
 
+// const { fetchItem } = require("./helpers/fetchItem");
+
 // const { fetchProducts } = require("./helpers/fetchProducts");
 
 // const { fetchProducts } = require("./helpers/fetchProducts");
@@ -75,9 +77,17 @@ const createCartItemElement = ({ id, title, price }) => {
   const li = document.createElement('li');
   li.className = 'cart__item';
   li.innerText = `ID: ${id} | TITLE: ${title} | PRICE: $${price}`;
-  li.addEventListener('click', cartItemClickListener);
+  // li.addEventListener('click', cartItemClickListener);
   return li;
 };
+function addEventButoes() {
+  const ol = document.getElementsByClassName('cart__items')[0];
+  const itemAdd = document.querySelectorAll('.item__add');
+  
+  itemAdd.forEach((item) => item.addEventListener('click', (event) => 
+  fetchItem(event.target.parentNode.firstChild.innerText)
+  .then((data) => ol.appendChild(createCartItemElement(data)))));
+}
 
 async function criarItens() {
   const section = document.getElementsByClassName('items')[0];
@@ -99,4 +109,7 @@ async function criarItens() {
 
 criarItens();
 
-window.onload = () => { };
+window.onload = () => { 
+  addEventButoes();
+  
+};
