@@ -73,21 +73,28 @@ const getIdFromProductItem = (product) => product.querySelector('span.id').inner
  * @param {string} product.price - Preço do produto.
  * @returns {Element} Elemento de um item do carrinho.
  */
+function removeItemFromCart(element) {
+  element.remove();
+}
+function cartItemClickListener(event) {
+  removeItemFromCart(event.target);
+}
 const createCartItemElement = ({ id, title, price }) => {
   const li = document.createElement('li');
   li.className = 'cart__item';
   li.innerText = `ID: ${id} | TITLE: ${title} | PRICE: $${price}`;
-  // li.addEventListener('click', cartItemClickListener);
+  li.addEventListener('click', cartItemClickListener);
   return li;
 };
-function addCart(event) {
+async function addCartOnClick(event) {
   const ol = document.getElementsByClassName('cart__items')[0];
   fetchItem(event.target.parentNode.firstChild.innerText)
   .then((data) => ol.appendChild(createCartItemElement(data)));
 }
 function addEventButoes() {
   const itemAdd = document.querySelectorAll('.item__add');
-  itemAdd.forEach((item) => item.addEventListener('click', (event) => addCart(event)));
+  itemAdd.forEach((item) => item.addEventListener('click', addCartOnClick)); // por que quando utiliza (event) => addCartOnClick(event)
+                                                                            // não precisa mais de async em addCartOnClick???
 }
 
 async function criarItens() {
