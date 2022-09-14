@@ -80,13 +80,14 @@ const createCartItemElement = ({ id, title, price }) => {
   // li.addEventListener('click', cartItemClickListener);
   return li;
 };
-function addEventButoes() {
+function addCart(event) {
   const ol = document.getElementsByClassName('cart__items')[0];
-  const itemAdd = document.querySelectorAll('.item__add');
-  
-  itemAdd.forEach((item) => item.addEventListener('click', (event) => 
   fetchItem(event.target.parentNode.firstChild.innerText)
-  .then((data) => ol.appendChild(createCartItemElement(data)))));
+  .then((data) => ol.appendChild(createCartItemElement(data)));
+}
+function addEventButoes() {
+  const itemAdd = document.querySelectorAll('.item__add');
+  itemAdd.forEach((item) => item.addEventListener('click', (event) => addCart(event)));
 }
 
 async function criarItens() {
