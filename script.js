@@ -119,5 +119,4 @@ criarItens();
 
 window.onload = () => { 
   addEventButoes();
-  
 };
