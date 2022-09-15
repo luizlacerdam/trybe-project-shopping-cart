@@ -78,7 +78,6 @@ function arrayLocalStorage() {
   console.log(arr);
   return arr;
 }
-arrayLocalStorage();
 
 // function removeItemFromLocalStorage(index) {
   
@@ -143,5 +142,7 @@ criarItens();
 
 window.onload = () => { 
   addEventButoes();
-  createCartFromLocalStorage();
+  if (localStorage.length !== 0) {
+    createCartFromLocalStorage();
+  }
 };
