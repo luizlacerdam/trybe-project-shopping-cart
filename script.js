@@ -57,7 +57,7 @@ const createProductItemElement = ({ id, title, thumbnail }) => {
  * @param {Element} product - Elemento do produto.
  * @returns {string} ID do produto.
  */
-const getIdFromProductItem = (product) => product.querySelector('span.id').innerText;
+// const getIdFromProductItem = (product) => product.querySelector('span.id').innerText;
 
 /**
  * Função responsável por criar e retornar um item do carrinho.
@@ -80,10 +80,10 @@ function arrayLocalStorage() {
 }
 arrayLocalStorage();
 
-function removeItemFromLocalStorage(index) {
+// function removeItemFromLocalStorage(index) {
   
-}
-removeItemFromLocalStorage(3);
+// }
+// removeItemFromLocalStorage(3);
 
 function cartItemClickListener(event) {
   removeItemFromCart(event.target);
