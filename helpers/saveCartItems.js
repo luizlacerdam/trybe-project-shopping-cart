@@ -1,8 +1,13 @@
 const saveCartItems = (cartItem) => {
-  if (localStorage.length === 0) {
+  if (!cartItem) {
+    return Error('Faltou o argumento');
+  }
+  if (!localStorage.cartItem) {
     return localStorage.setItem('cartItem', `${cartItem} `);
   }
-  return localStorage.setItem('cartItem', `${cartItem} ${localStorage.getItem('cartItem')}`);
+  if (localStorage.cartItem) {
+    return localStorage.setItem('cartItem', `${cartItem} ${localStorage.getItem('cartItem')}`);
+  }
 };
 
 if (typeof module !== 'undefined') {

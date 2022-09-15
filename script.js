@@ -67,24 +67,31 @@ const createProductItemElement = ({ id, title, thumbnail }) => {
  * @param {string} product.price - Preço do produto.
  * @returns {Element} Elemento de um item do carrinho.
  */
-function removeItemFromCart(element) {
-  element.remove();
-}
 
 function arrayLocalStorage() {
   const arr = localStorage.getItem('cartItem').split(' ');
   arr.pop(arr.length - 1);
   arr.reverse();
-  console.log(arr);
   return arr;
 }
 
-// function removeItemFromLocalStorage(index) {
+function removeItemFromCart(element) {
+  element.remove();
+}
+
+function removeItemFromLocalStorage(index) {
   
-// }
-// removeItemFromLocalStorage(3);
+}
+removeItemFromLocalStorage(0);
 
 function cartItemClickListener(event) {
+  // remove storage
+  const text = event.target.innerText;
+  const arr = text.split(' ');
+  console.log(arr[1]);
+  console.log(arrayLocalStorage().findIndex((item) => item === arr[1]));
+  
+  // remove html
   removeItemFromCart(event.target);
 }
 
@@ -142,7 +149,7 @@ criarItens();
 
 window.onload = () => { 
   addEventButoes();
-  if (localStorage.length !== 0) {
+  if (localStorage.cartItem && localStorage.cartItem.length !== 0) {
     createCartFromLocalStorage();
   }
 };
