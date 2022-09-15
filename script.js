@@ -1,11 +1,5 @@
 // Esse tipo de comentário que estão antes de todas as funções são chamados de JSdoc,
 
-// const { fetchItem } = require("./helpers/fetchItem");
-
-// const { fetchProducts } = require("./helpers/fetchProducts");
-
-// const { fetchProducts } = require("./helpers/fetchProducts");
-
 // const item = require("./mocks/item");
 
 // experimente passar o mouse sobre o nome das funções e verá que elas possuem descrições! 
@@ -76,9 +70,25 @@ const getIdFromProductItem = (product) => product.querySelector('span.id').inner
 function removeItemFromCart(element) {
   element.remove();
 }
+
+function arrayLocalStorage() {
+  const arr = localStorage.getItem('cartItem').split(' ');
+  arr.pop(arr.length - 1);
+  arr.reverse();
+  console.log(arr);
+  return arr;
+}
+arrayLocalStorage();
+
+function removeItemFromLocalStorage(index) {
+  
+}
+removeItemFromLocalStorage(3);
+
 function cartItemClickListener(event) {
   removeItemFromCart(event.target);
 }
+
 const createCartItemElement = ({ id, title, price }) => {
   const li = document.createElement('li');
   li.className = 'cart__item';
@@ -86,11 +96,25 @@ const createCartItemElement = ({ id, title, price }) => {
   li.addEventListener('click', cartItemClickListener);
   return li;
 };
+
 async function addCartOnClick(event) {
   const ol = document.getElementsByClassName('cart__items')[0];
-  fetchItem(event.target.parentNode.firstChild.innerText)
-  .then((data) => ol.appendChild(createCartItemElement(data)));
+  // pode ser feito assim tambem :)
+  // fetchItem(event.target.parentNode.firstChild.innerText)
+  // .then((data) => ol.appendChild(createCartItemElement(data)));
+ 
+  const data = await fetchItem(event.target.parentNode.firstChild.innerText);
+  ol.appendChild(createCartItemElement(data));
+  const ItemId = data.id;
+  saveCartItems(ItemId);  
 }
+
+function createCartFromLocalStorage() {
+  const ol = document.getElementsByClassName('cart__items')[0];
+  arrayLocalStorage().forEach((item) => fetchItem(item)
+  .then((data) => ol.appendChild(createCartItemElement(data))));
+}
+
 function addEventButoes() {
   const itemAdd = document.querySelectorAll('.item__add');
   itemAdd.forEach((item) => item.addEventListener('click', addCartOnClick)); // por que quando utiliza (event) => addCartOnClick(event)
@@ -119,4 +143,5 @@ criarItens();
 
 window.onload = () => { 
   addEventButoes();
+  createCartFromLocalStorage();
 };
