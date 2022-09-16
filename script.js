@@ -69,9 +69,7 @@ const createProductItemElement = ({ id, title, thumbnail }) => {
  */
 
 function arrayLocalStorage() {
-  const arr = localStorage.getItem('cartItem').split(' ');
-  arr.pop(arr.length - 1);
-  arr.reverse();
+  const arr = localStorage.getItem('cartItems').split(' ');
   return arr;
 }
 
@@ -79,17 +77,19 @@ function removeItemFromCart(element) {
   element.remove();
 }
 
-function removeItemFromLocalStorage(index) {
-  
+function removeItemFromLocalStorage(event) {
+  const text = event.target.innerText;
+  const arr = text.split(' ');
+  const indexRemover = arrayLocalStorage().findIndex((item) => item === arr[1]);
+  const arrayLocalStorageCopy = arrayLocalStorage(); 
+  arrayLocalStorageCopy.splice(indexRemover, 1);
+  const novosItems = arrayLocalStorageCopy.join(' ');
+  localStorage.cartItems = novosItems;
 }
-removeItemFromLocalStorage(0);
 
 function cartItemClickListener(event) {
   // remove storage
-  const text = event.target.innerText;
-  const arr = text.split(' ');
-  console.log(arr[1]);
-  console.log(arrayLocalStorage().findIndex((item) => item === arr[1]));
+  removeItemFromLocalStorage(event);
   
   // remove html
   removeItemFromCart(event.target);
@@ -149,7 +149,7 @@ criarItens();
 
 window.onload = () => { 
   addEventButoes();
-  if (localStorage.cartItem && localStorage.cartItem.length !== 0) {
+  if (localStorage.cartItems && localStorage.cartItems.length !== 0) {
     createCartFromLocalStorage();
   }
 };
