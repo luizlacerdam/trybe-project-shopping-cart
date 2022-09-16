@@ -68,6 +68,15 @@ const createProductItemElement = ({ id, title, thumbnail }) => {
  * @returns {Element} Elemento de um item do carrinho.
  */
 
+// function addTotal(price) {
+//   const elementTotal = document.getElementById('valor-total');
+//   const sum = parseFloat(elementTotal.innerText) + price;
+//   elementTotal.innerText = sum;
+// }
+// function subTotal(price) {
+  
+// }
+
 function arrayLocalStorage() {
   const arr = localStorage.getItem('cartItems');
   return JSON.parse(arr);
@@ -78,7 +87,6 @@ function removeItemFromCart(element) {
 }
 
 function removeItemFromLocalStorage(event) {
-  
   const text = event.target.innerText;
   const arr = text.split(' ');
   const indexRemover = arrayLocalStorage().findIndex((item) => item.id === arr[1]);
@@ -114,6 +122,7 @@ async function addCartOnClick(event) {
   const li = createCartItemElement(data);
   ol.appendChild(li);
   saveCartItems(data);
+  // addTotal(data.price);
 }
 
 function createCartFromLocalStorage() {
