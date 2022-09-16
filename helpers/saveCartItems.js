@@ -1,13 +1,13 @@
-const saveCartItems = (cartItem) => {
-  if (!cartItem) {
-    return new Error('Faltou o argumento');
-  }
-  if (!localStorage.cartItems) {
-    return localStorage.setItem('cartItems', `${cartItem}`);
-  }
-  if (localStorage.cartItems) {
-    return localStorage.setItem('cartItems', `${cartItem} ${localStorage.getItem('cartItems')}`);
-  }
+const arr = [];
+const saveCartItems = ({ id, title, price }) => {
+ const obj = {
+  id,
+  title,
+  price,
+ };
+  
+  arr.push(obj);
+  localStorage.setItem('cartItems', JSON.stringify(arr));
 };
 
 if (typeof module !== 'undefined') {

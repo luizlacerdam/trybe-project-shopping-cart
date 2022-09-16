@@ -69,8 +69,8 @@ const createProductItemElement = ({ id, title, thumbnail }) => {
  */
 
 function arrayLocalStorage() {
-  const arr = localStorage.getItem('cartItems').split(' ');
-  return arr;
+  const arr = localStorage.getItem('cartItems');
+  return JSON.parse(arr);
 }
 
 function removeItemFromCart(element) {
@@ -78,12 +78,13 @@ function removeItemFromCart(element) {
 }
 
 function removeItemFromLocalStorage(event) {
+  
   const text = event.target.innerText;
   const arr = text.split(' ');
-  const indexRemover = arrayLocalStorage().findIndex((item) => item === arr[1]);
+  const indexRemover = arrayLocalStorage().findIndex((item) => item.id === arr[1]);
   const arrayLocalStorageCopy = arrayLocalStorage(); 
   arrayLocalStorageCopy.splice(indexRemover, 1);
-  const novosItems = arrayLocalStorageCopy.join(' ');
+  const novosItems = JSON.stringify(arrayLocalStorageCopy);
   localStorage.cartItems = novosItems;
 }
 
@@ -110,15 +111,27 @@ async function addCartOnClick(event) {
   // .then((data) => ol.appendChild(createCartItemElement(data)));
  
   const data = await fetchItem(event.target.parentNode.firstChild.innerText);
-  ol.appendChild(createCartItemElement(data));
-  const ItemId = data.id;
-  saveCartItems(ItemId);  
+  const li = createCartItemElement(data);
+  ol.appendChild(li);
+  saveCartItems(data);
 }
 
 function createCartFromLocalStorage() {
   const ol = document.getElementsByClassName('cart__items')[0];
-  arrayLocalStorage().forEach((item) => fetchItem(item)
-  .then((data) => ol.appendChild(createCartItemElement(data))));
+  // deselegante T-T
+  // arrayLocalStorage().forEach((item) => fetchItem(item)
+  // .then((data) => ol.appendChild(createCartItemElement(data))));
+
+  // elegante
+  arrayLocalStorage().forEach((item) => {
+    const element = createCartItemElement(item);
+    ol.appendChild(element);
+  });
+  
+  // for (let i = 0; i < arrayLocalStorage().length; i += 1) {
+  //   const data = fetchItem(arrayLocalStorage()[i]);
+  //   ol.appendChild(createCartItemElement(data));
+  // }
 }
 
 function addEventButoes() {
@@ -145,11 +158,22 @@ async function criarItens() {
   // });
 }
 
+function emptyCart() {
+  const botaoEsvaziar = document.getElementsByClassName('empty-cart')[0];
+  const cartItem = document.getElementsByClassName('cart__item');
+  botaoEsvaziar.addEventListener('click', () => {
+    while (cartItem.length > 0) {
+      cartItem[0].remove();
+    }
+    localStorage.clear();
+  });
+}
+emptyCart();
 criarItens();
 
-window.onload = () => { 
+window.onload = async () => { 
   addEventButoes();
-  if (localStorage.cartItems && localStorage.cartItems.length !== 0) {
+  if (localStorage.cartItems) {
     createCartFromLocalStorage();
   }
 };
