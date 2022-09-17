@@ -67,19 +67,19 @@ const createProductItemElement = ({ id, title, thumbnail }) => {
  * @param {string} product.price - Preço do produto.
  * @returns {Element} Elemento de um item do carrinho.
  */
-
-// function addTotal(price) {
-//   const elementTotal = document.getElementById('valor-total');
-//   const sum = parseFloat(elementTotal.innerText) + price;
-//   elementTotal.innerText = sum;
-// }
-// function subTotal(price) {
-  
-// }
-
+ 
 function arrayLocalStorage() {
   const arr = localStorage.getItem('cartItems');
   return JSON.parse(arr);
+}
+
+function addTotal() {
+  let sum = 0;
+  const elementTotal = document.getElementsByClassName('total-price')[0];
+  arrayLocalStorage().forEach((element) => {
+    sum += element.price;
+  });
+  elementTotal.innerText = sum;
 }
 
 function removeItemFromCart(element) {
@@ -94,6 +94,7 @@ function removeItemFromLocalStorage(event) {
   arrayLocalStorageCopy.splice(indexRemover, 1);
   const novosItems = JSON.stringify(arrayLocalStorageCopy);
   localStorage.cartItems = novosItems;
+  addTotal();
 }
 
 function cartItemClickListener(event) {
@@ -122,7 +123,7 @@ async function addCartOnClick(event) {
   const li = createCartItemElement(data);
   ol.appendChild(li);
   saveCartItems(data);
-  // addTotal(data.price);
+  addTotal();
 }
 
 function createCartFromLocalStorage() {
@@ -135,6 +136,7 @@ function createCartFromLocalStorage() {
   arrayLocalStorage().forEach((item) => {
     const element = createCartItemElement(item);
     ol.appendChild(element);
+    addTotal();
   });
   
   // for (let i = 0; i < arrayLocalStorage().length; i += 1) {
@@ -151,7 +153,6 @@ function addEventButoes() {
 
 async function criarItens() {
   const section = document.getElementsByClassName('items')[0];
-  
   const produtos = await fetchProducts('computador');
   produtos.results.forEach((produto) => {
     const criarElemento = createProductItemElement(produto);
