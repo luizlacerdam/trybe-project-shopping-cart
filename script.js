@@ -67,7 +67,17 @@ const createProductItemElement = ({ id, title, thumbnail }) => {
  * @param {string} product.price - Preço do produto.
  * @returns {Element} Elemento de um item do carrinho.
  */
- 
+function addLoading() {
+  const items = document.getElementsByClassName('items')[0];
+  const element = document.createElement('p');
+  element.classList.add('loading');
+  element.innerText = 'carregando...';
+  items.appendChild(element);
+}
+function removeLoading() {
+  const element = document.getElementsByClassName('loading')[0];
+  element.remove();
+}
 function arrayLocalStorage() {
   const arr = localStorage.getItem('cartItems');
   return JSON.parse(arr);
@@ -152,13 +162,14 @@ function addEventButoes() {
 }
 
 async function criarItens() {
+  addLoading();
   const section = document.getElementsByClassName('items')[0];
   const produtos = await fetchProducts('computador');
   produtos.results.forEach((produto) => {
     const criarElemento = createProductItemElement(produto);
     section.appendChild(criarElemento);
   });
-  
+  removeLoading();
   // funcionando
   // fetchProducts('computador').then((data) => {
   //   data.forEach((produto) => {
