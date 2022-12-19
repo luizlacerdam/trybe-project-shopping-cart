@@ -78,15 +78,11 @@ function removeLoading() {
   const element = document.getElementsByClassName('loading')[0];
   element.remove();
 }
-function arrayLocalStorage() {
-  const arr = localStorage.getItem('cartItems');
-  return JSON.parse(arr);
-}
 
 function addTotal() {
   let sum = 0;
   const elementTotal = document.getElementsByClassName('total-price')[0];
-  arrayLocalStorage().forEach((element) => {
+  getSavedCartItems().forEach((element) => {
     sum += element.price;
   });
   elementTotal.innerText = sum;
@@ -100,7 +96,7 @@ function removeItemFromLocalStorage(event) {
   const text = event.target.innerText;
   const arr = text.split(' ');
   console.log(arr);
-  const newArr = arrayLocalStorage().filter((item) => item.id !== arr[1])
+  const newArr = getSavedCartItems().filter((item) => item.id !== arr[1])
   localStorage.cartItems = JSON.stringify(newArr);
   addTotal();
 }
@@ -137,18 +133,18 @@ async function addCartOnClick(event) {
 function createCartFromLocalStorage() {
   const ol = document.getElementsByClassName('cart__items')[0];
   // deselegante T-T
-  // arrayLocalStorage().forEach((item) => fetchItem(item)
+  // getSavedCartItems().forEach((item) => fetchItem(item)
   // .then((data) => ol.appendChild(createCartItemElement(data))));
 
   // elegante
-  arrayLocalStorage().forEach((item) => {
+  getSavedCartItems().forEach((item) => {
     const element = createCartItemElement(item);
     ol.appendChild(element);
     addTotal();
   });
 
-  // for (let i = 0; i < arrayLocalStorage().length; i += 1) {
-  //   const data = fetchItem(arrayLocalStorage()[i]);
+  // for (let i = 0; i < getSavedCartItems().length; i += 1) {
+  //   const data = fetchItem(getSavedCartItems()[i]);
   //   ol.appendChild(createCartItemElement(data));
   // }
 }

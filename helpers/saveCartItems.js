@@ -1,11 +1,12 @@
 const arr = [];
 const saveCartItems = ({ id, title, price }) => {
- const obj = {
-  id,
-  title,
-  price,
- };
-  
+
+  const obj = {
+    id,
+    title,
+    price,
+  };
+
   arr.push(obj);
   localStorage.setItem('cartItems', JSON.stringify(arr));
 };
