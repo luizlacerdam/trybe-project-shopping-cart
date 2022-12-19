@@ -99,18 +99,16 @@ function removeItemFromCart(element) {
 function removeItemFromLocalStorage(event) {
   const text = event.target.innerText;
   const arr = text.split(' ');
-  const indexRemover = arrayLocalStorage().findIndex((item) => item.id === arr[1]);
-  const arrayLocalStorageCopy = arrayLocalStorage(); 
-  arrayLocalStorageCopy.splice(indexRemover, 1);
-  const novosItems = JSON.stringify(arrayLocalStorageCopy);
-  localStorage.cartItems = novosItems;
+  console.log(arr);
+  const newArr = arrayLocalStorage().filter((item) => item.id !== arr[1])
+  localStorage.cartItems = JSON.stringify(newArr);
   addTotal();
 }
 
 function cartItemClickListener(event) {
   // remove storage
   removeItemFromLocalStorage(event);
-  
+
   // remove html
   removeItemFromCart(event.target);
 }
@@ -128,7 +126,7 @@ async function addCartOnClick(event) {
   // pode ser feito assim tambem :)
   // fetchItem(event.target.parentNode.firstChild.innerText)
   // .then((data) => ol.appendChild(createCartItemElement(data)));
- 
+
   const data = await fetchItem(event.target.parentNode.firstChild.innerText);
   const li = createCartItemElement(data);
   ol.appendChild(li);
@@ -148,7 +146,7 @@ function createCartFromLocalStorage() {
     ol.appendChild(element);
     addTotal();
   });
-  
+
   // for (let i = 0; i < arrayLocalStorage().length; i += 1) {
   //   const data = fetchItem(arrayLocalStorage()[i]);
   //   ol.appendChild(createCartItemElement(data));
@@ -158,7 +156,7 @@ function createCartFromLocalStorage() {
 function addEventButoes() {
   const itemAdd = document.querySelectorAll('.item__add');
   itemAdd.forEach((item) => item.addEventListener('click', addCartOnClick)); // por que quando utiliza (event) => addCartOnClick(event)
-                                                                            // não precisa mais de async em addCartOnClick???
+  // não precisa mais de async em addCartOnClick???
 }
 
 async function criarItens() {
@@ -192,7 +190,7 @@ function emptyCart() {
 emptyCart();
 criarItens();
 
-window.onload = async () => { 
+window.onload = async () => {
   addEventButoes();
   if (localStorage.cartItems) {
     createCartFromLocalStorage();
