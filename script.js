@@ -185,6 +185,8 @@ function emptyCart() {
       cartItem[0].remove();
     }
     localStorage.clear();
+    const elementTotal = document.getElementsByClassName('total-price')[0];
+    elementTotal.innerText = '0,00';
   });
 }
 emptyCart();
