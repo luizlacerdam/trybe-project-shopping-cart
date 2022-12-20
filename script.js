@@ -89,14 +89,15 @@ function addTotal() {
 }
 
 function removeItemFromCart(element) {
-  element.remove();
+  const li = element.parentNode;
+  li.remove();
 }
 
 function removeItemFromLocalStorage(event) {
-  const text = event.target.innerText;
-  const arr = text.split(' ');
-  console.log(arr);
-  const newArr = getSavedCartItems().filter((item) => item.id !== arr[1])
+  console.log();
+  // const arr = text.split(' ');
+  const elementId = event.target.parentNode.children[1].innerText;
+  const newArr = getSavedCartItems().filter((item) => item.id !== elementId);
   localStorage.cartItems = JSON.stringify(newArr);
   addTotal();
 }
@@ -109,10 +110,14 @@ function cartItemClickListener(event) {
   removeItemFromCart(event.target);
 }
 
-const createCartItemElement = ({ id, title, price }) => {
+const createCartItemElement = ({ id, title, price, thumbnail }) => {
   const li = document.createElement('li');
   li.className = 'cart__item';
-  li.innerText = `ID: ${id} | TITLE: ${title} | PRICE: $${price}`;
+
+  li.appendChild(createProductImageElement(thumbnail));
+  li.appendChild(createCustomElement('span', 'cart__id', id));
+  li.appendChild(createCustomElement('span', 'cart__title', title));
+  li.appendChild(createCustomElement('span', 'cart__price', `R$${price}`));
   li.addEventListener('click', cartItemClickListener);
   return li;
 };
