@@ -190,6 +190,24 @@ function emptyCart() {
     elementTotal.innerText = '0,00';
   });
 }
+
+function cartIconHandle() {
+  const carTitle = document.getElementById('cartTitle');
+  const cartIcon = document.getElementById('cartIcon');
+  const cartSection = document.getElementById('cartSection');
+
+  cartIcon.addEventListener('click', () => {
+    if (carTitle.style.display === 'none') {
+      carTitle.style.display = 'flex';
+      cartSection.style.display = 'flex';
+    } else {
+      carTitle.style.display = 'none';
+      cartSection.style.display = 'none';
+    }
+  });
+}
+
+cartIconHandle();
 emptyCart();
 criarItens();
 
