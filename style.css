@@ -177,6 +177,21 @@ body {
   max-height: 100px;
 }
 
+#cart_icon_div {
+  display: flex;
+  flex-direction: column-reverse;
+}
+
+#cart_number {
+  align-self: flex-end;
+  color: red;
+  background-color: white;
+  padding: 3px;
+  border-radius: 8px;
+  width: 30%;
+
+}
+
 .empty-cart {
   width: 170px;
   height: 35px;

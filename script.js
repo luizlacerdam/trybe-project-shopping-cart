@@ -17,7 +17,6 @@ const createProductImageElement = (imageSource) => {
   img.src = imageSource;
   return img;
 };
-
 /**
  * Função responsável por criar e retornar qualquer elemento.
  * @param {string} element - Nome do elemento a ser criado.
@@ -31,7 +30,6 @@ const createCustomElement = (element, className, innerText) => {
   e.innerText = innerText;
   return e;
 };
-
 /**
  * Função responsável por criar e retornar o elemento do produto.
  * @param {Object} product - Objeto do produto. 
@@ -48,10 +46,8 @@ const createProductItemElement = ({ id, title, thumbnail, price }) => {
   section.appendChild(createCustomElement('span', 'item__title', title));
   section.appendChild(createCustomElement('span', 'item__price', `R$ ${price}`));
   section.appendChild(createCustomElement('button', 'item__add', 'Adicionar ao carrinho!'));
-
   return section;
 };
-
 /**
  * Função que recupera o ID do produto passado como parâmetro.
  * @param {Element} product - Elemento do produto.
@@ -78,7 +74,6 @@ function removeLoading() {
   const element = document.getElementsByClassName('loading')[0];
   element.remove();
 }
-
 function addTotal() {
   let sum = 0;
   const elementTotal = document.getElementsByClassName('total-price')[0];
@@ -87,12 +82,10 @@ function addTotal() {
   });
   elementTotal.innerText = sum;
 }
-
 function removeItemFromCart(element) {
   const li = element.parentNode;
   li.remove();
 }
-
 function removeItemFromLocalStorage(event) {
   console.log();
   // const arr = text.split(' ');
@@ -101,15 +94,20 @@ function removeItemFromLocalStorage(event) {
   localStorage.cartItems = JSON.stringify(newArr);
   addTotal();
 }
-
+function countItems() {
+  const cartItems = getSavedCartItems();
+  const cartNumber = document.getElementById('cart_number');
+  cartNumber.innerText = cartItems.length;
+}
 function cartItemClickListener(event) {
   // remove storage
   removeItemFromLocalStorage(event);
 
   // remove html
   removeItemFromCart(event.target);
-}
 
+  countItems();
+}
 const createCartItemElement = ({ id, title, price, thumbnail }) => {
   const li = document.createElement('li');
   li.className = 'cart__item';
@@ -121,7 +119,6 @@ const createCartItemElement = ({ id, title, price, thumbnail }) => {
   li.addEventListener('click', cartItemClickListener);
   return li;
 };
-
 async function addCartOnClick(event) {
   const ol = document.getElementsByClassName('cart__items')[0];
   // pode ser feito assim tambem :)
@@ -133,8 +130,8 @@ async function addCartOnClick(event) {
   ol.appendChild(li);
   saveCartItems(data);
   addTotal();
+  countItems();
 }
-
 function createCartFromLocalStorage() {
   const ol = document.getElementsByClassName('cart__items')[0];
   // deselegante T-T
@@ -153,13 +150,11 @@ function createCartFromLocalStorage() {
   //   ol.appendChild(createCartItemElement(data));
   // }
 }
-
 function addEventButoes() {
   const itemAdd = document.querySelectorAll('.item__add');
   itemAdd.forEach((item) => item.addEventListener('click', addCartOnClick)); // por que quando utiliza (event) => addCartOnClick(event)
   // não precisa mais de async em addCartOnClick???
 }
-
 async function criarItens() {
   addLoading();
   const section = document.getElementsByClassName('items')[0];
@@ -177,7 +172,6 @@ async function criarItens() {
   //   });
   // });
 }
-
 function emptyCart() {
   const botaoEsvaziar = document.getElementsByClassName('empty-cart')[0];
   const cartItem = document.getElementsByClassName('cart__item');
@@ -190,7 +184,6 @@ function emptyCart() {
     elementTotal.innerText = '0,00';
   });
 }
-
 function cartIconHandle() {
   const carTitle = document.getElementById('cartTitle');
   const cartIcon = document.getElementById('cartIcon');
@@ -216,4 +209,5 @@ window.onload = async () => {
   if (localStorage.cartItems) {
     createCartFromLocalStorage();
   }
+  countItems();
 };
