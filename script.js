@@ -91,7 +91,6 @@ function removeItemFromCart(element) {
 }
 
 function removeItemFromLocalStorage(event) {
-  // const arr = text.split(' ');
   const elementId = event.target.parentNode.children[1].innerText;
   const newArr = getSavedCartItems().filter((item) => item.id !== elementId);
   localStorage.cartItems = JSON.stringify(newArr);
@@ -111,7 +110,6 @@ function countItems() {
 function cartItemClickListener(event) {
   // remove storage
   removeItemFromLocalStorage(event);
-
   // remove html
   removeItemFromCart(event.target);
   // recount cart
@@ -131,10 +129,6 @@ const createCartItemElement = ({ id, title, price, thumbnail }) => {
 
 async function addCartOnClick(event) {
   const ol = document.getElementsByClassName('cart__items')[0];
-  // pode ser feito assim tambem :)
-  // fetchItem(event.target.parentNode.firstChild.innerText)
-  // .then((data) => ol.appendChild(createCartItemElement(data)));
-
   const data = await fetchItem(event.target.parentNode.firstChild.innerText);
   const li = createCartItemElement(data);
   ol.appendChild(li);
@@ -145,10 +139,6 @@ async function addCartOnClick(event) {
 
 function createCartFromLocalStorage() {
   const ol = document.getElementsByClassName('cart__items')[0];
-  // deselegante T-T
-  // getSavedCartItems().forEach((item) => fetchItem(item)
-  // .then((data) => ol.appendChild(createCartItemElement(data))));
-  // elegante
   getSavedCartItems().forEach((item) => {
     const element = createCartItemElement(item);
     ol.appendChild(element);
@@ -170,13 +160,6 @@ async function criarItens() {
     section.appendChild(criarElemento);
   });
   removeLoading();
-  // funcionando
-  // fetchProducts('computador').then((data) => {
-  //   data.forEach((produto) => {
-  //     const criarElemento = createProductItemElement(produto);
-  //     section.appendChild(criarElemento);
-  //   });
-  // });
 }
 
 function emptyCart() {
