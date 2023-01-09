@@ -6,10 +6,8 @@ const saveCartItems = ({ id, title, price, thumbnail }) => {
     price,
     thumbnail,
   };
-
   arr.push(obj);
   localStorage.setItem('cartItems', JSON.stringify(arr));
-
 };
 
 if (typeof module !== 'undefined') {

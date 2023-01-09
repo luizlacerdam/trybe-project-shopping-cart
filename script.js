@@ -70,10 +70,12 @@ function addLoading() {
   element.innerText = 'carregando...';
   items.appendChild(element);
 }
+
 function removeLoading() {
   const element = document.getElementsByClassName('loading')[0];
   element.remove();
 }
+
 function addTotal() {
   let sum = 0;
   const elementTotal = document.getElementsByClassName('total-price')[0];
@@ -82,36 +84,43 @@ function addTotal() {
   });
   elementTotal.innerText = sum;
 }
+
 function removeItemFromCart(element) {
   const li = element.parentNode;
   li.remove();
 }
+
 function removeItemFromLocalStorage(event) {
-  console.log();
   // const arr = text.split(' ');
   const elementId = event.target.parentNode.children[1].innerText;
   const newArr = getSavedCartItems().filter((item) => item.id !== elementId);
   localStorage.cartItems = JSON.stringify(newArr);
   addTotal();
 }
+
 function countItems() {
   const cartItems = getSavedCartItems();
   const cartNumber = document.getElementById('cart_number');
-  cartNumber.innerText = cartItems.length;
+  if (!cartItems) {
+    cartNumber.innerText = '0';
+  } else {
+    cartNumber.innerText = cartItems.length;
+  }
 }
+
 function cartItemClickListener(event) {
   // remove storage
   removeItemFromLocalStorage(event);
 
   // remove html
   removeItemFromCart(event.target);
-
+  // recount cart
   countItems();
 }
+
 const createCartItemElement = ({ id, title, price, thumbnail }) => {
   const li = document.createElement('li');
   li.className = 'cart__item';
-
   li.appendChild(createProductImageElement(thumbnail));
   li.appendChild(createCustomElement('span', 'cart__id', id));
   li.appendChild(createCustomElement('span', 'cart__title', title));
@@ -119,6 +128,7 @@ const createCartItemElement = ({ id, title, price, thumbnail }) => {
   li.addEventListener('click', cartItemClickListener);
   return li;
 };
+
 async function addCartOnClick(event) {
   const ol = document.getElementsByClassName('cart__items')[0];
   // pode ser feito assim tambem :)
@@ -132,29 +142,25 @@ async function addCartOnClick(event) {
   addTotal();
   countItems();
 }
+
 function createCartFromLocalStorage() {
   const ol = document.getElementsByClassName('cart__items')[0];
   // deselegante T-T
   // getSavedCartItems().forEach((item) => fetchItem(item)
   // .then((data) => ol.appendChild(createCartItemElement(data))));
-
   // elegante
   getSavedCartItems().forEach((item) => {
     const element = createCartItemElement(item);
     ol.appendChild(element);
     addTotal();
   });
-
-  // for (let i = 0; i < getSavedCartItems().length; i += 1) {
-  //   const data = fetchItem(getSavedCartItems()[i]);
-  //   ol.appendChild(createCartItemElement(data));
-  // }
 }
+
 function addEventButoes() {
   const itemAdd = document.querySelectorAll('.item__add');
-  itemAdd.forEach((item) => item.addEventListener('click', addCartOnClick)); // por que quando utiliza (event) => addCartOnClick(event)
-  // não precisa mais de async em addCartOnClick???
+  itemAdd.forEach((item) => item.addEventListener('click', addCartOnClick)); 
 }
+
 async function criarItens() {
   addLoading();
   const section = document.getElementsByClassName('items')[0];
@@ -172,6 +178,7 @@ async function criarItens() {
   //   });
   // });
 }
+
 function emptyCart() {
   const botaoEsvaziar = document.getElementsByClassName('empty-cart')[0];
   const cartItem = document.getElementsByClassName('cart__item');
@@ -182,13 +189,14 @@ function emptyCart() {
     localStorage.clear();
     const elementTotal = document.getElementsByClassName('total-price')[0];
     elementTotal.innerText = '0,00';
+    countItems();
   });
 }
+
 function cartIconHandle() {
   const carTitle = document.getElementById('cartTitle');
   const cartIcon = document.getElementById('cartIcon');
   const cartSection = document.getElementById('cartSection');
-
   cartIcon.addEventListener('click', () => {
     if (carTitle.style.display === 'none') {
       carTitle.style.display = 'flex';
@@ -202,12 +210,12 @@ function cartIconHandle() {
 
 cartIconHandle();
 emptyCart();
-criarItens();
 
 window.onload = async () => {
-  addEventButoes();
+  await criarItens();
   if (localStorage.cartItems) {
     createCartFromLocalStorage();
   }
+  addEventButoes();
   countItems();
 };
