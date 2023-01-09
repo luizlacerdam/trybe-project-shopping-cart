@@ -1,10 +1,6 @@
-const getSavedCartItems2 = () => {
-  const arr = localStorage.getItem('cartItems');
-  return JSON.parse(arr);
-};
-
 const saveCartItems = ({ id, title, price, thumbnail }) => {
-   const arr = getSavedCartItems2() || [];
+   // eslint-disable-next-line no-undef
+   const arr = getSavedCartItems() || [];
   const obj = {
     id,
     title,
