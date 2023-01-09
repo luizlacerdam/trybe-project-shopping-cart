@@ -4,6 +4,5 @@
 .vscode
 .DS_Store
 node_modules/
-cypress/reports
-cypress/screenshots
+cypress/
 coverage/
